@@ -1,0 +1,12 @@
+
+Lecture 79 - JavaScript CRUD using a Form and a Table With Real APIs Part 1
+
+
+CRUD = Create Read Update Delete
+
+APIs = Application Programming Interface (Backend Engineer)
+
+
+(Backend Engineer)  ---> Api   ---> Frontend Engineer  (ReactJs/AngularJs/VueJs)
+
+We will use Bootstrap 5.x
