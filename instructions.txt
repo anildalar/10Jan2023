@@ -5,8 +5,40 @@ Lecture 79 - JavaScript CRUD using a Form and a Table With Real APIs Part 1
 CRUD = Create Read Update Delete
 
 APIs = Application Programming Interface (Backend Engineer)
-
+REST = Representional State Transfer
+JSON = Javascript Object Notation
 
 (Backend Engineer)  ---> Api   ---> Frontend Engineer  (ReactJs/AngularJs/VueJs)
 
 We will use Bootstrap 5.x
+
+
+HTML Form  40%
+HTML Table 60%
+
+In order to use BS5 in your project
+1. < meta name="viewport">
+2.  <link>  CSS
+3.  <script></script>  JS
+
+
+Free Rest API
+
+https://reqres.in/
+
+What are the endpoints(address) of the API ?
+https://reqres.in/api/users?page=2
+
+
+You have to call the apis in Javscript .
+
+There 2 Ways you can call the apis in Pure/Vanilla/Core/Basic Javascript ?
+
+1. XMLHTTPRequest Class
+2. Fetch APIs.
+
+
+{}
+[]
+
+[{},{},{},{}] = Array of Object
