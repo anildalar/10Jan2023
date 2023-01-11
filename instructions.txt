@@ -10,6 +10,12 @@ JSON = Javascript Object Notation
 
 (Backend Engineer)  ---> Api   ---> Frontend Engineer  (ReactJs/AngularJs/VueJs)
 
+
+
+SPA(Single Page application) application
+
+(ReactJs/AngularJs/VueJs)
+
 We will use Bootstrap 5.x
 
 
@@ -34,11 +40,24 @@ You have to call the apis in Javscript .
 
 There 2 Ways you can call the apis in Pure/Vanilla/Core/Basic Javascript ?
 
-1. XMLHTTPRequest Class
-2. Fetch APIs.
+1. XMLHTTPRequest Class (Old Way)
+2. Fetch APIs. (New Way)
 
 
 {}
 []
 
 [{},{},{},{}] = Array of Object
+
+PostMan(Software) Or ThunderClient (VScode extension)
+
+Postman is client side api testing tool/software
+
+JS Object (JSON Object)
+
+Javascript Object Notation
+{
+		 //1. P:V
+    "name": "morpheus",
+    "job": "leader"
+}
