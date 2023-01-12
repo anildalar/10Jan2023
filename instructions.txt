@@ -6,7 +6,9 @@ CRUD = Create Read Update Delete
 
 APIs = Application Programming Interface (Backend Engineer)
 REST = Representional State Transfer
-JSON = Javascript Object Notation
+JSON = Javascript Object Notation 
+
+JSON = Js Object = {}
 
 (Backend Engineer)  ---> Api   ---> Frontend Engineer  (ReactJs/AngularJs/VueJs)
 
@@ -44,8 +46,8 @@ There 2 Ways you can call the apis in Pure/Vanilla/Core/Basic Javascript ?
 2. Fetch APIs. (New Way)
 
 
-{}
-[]
+{} = JS Object
+[] = JS Array
 
 [{},{},{},{}] = Array of Object
 
@@ -61,3 +63,11 @@ Javascript Object Notation
     "name": "morpheus",
     "job": "leader"
 }
+
+ThunderClient
+		POST -> BODY -> JSON
+
+
+
+JS Object ------> JSON.strigify() ----->  JSON String
+JSON String-----> JSON.parse()     ------> JS Object
