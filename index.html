@@ -65,7 +65,10 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
-
+            let bdy = document.querySelector('body');
+            let x = document.querySelector('table.aniltable > tbody');
+            let url = 'https://reqres.in';
+            //Fat arrow ES6 2015
             //Promise Chain
 
             //Promise Object
@@ -76,8 +79,8 @@
             .then((response) => response.json())
             .then((data) => console.log(data));
             */
-            let x = document.querySelector('table.aniltable > tbody');
-            fetch('https://reqres.in/api/users?page=2')
+            
+            fetch(url+'/api/users?page=2')
             .then((res)=>{ //response is formal arguemnt
                 //Every function return something
                 //To make data json readable
@@ -90,14 +93,14 @@
                 for (variable of data.data) {
                     // code block to be executed
                     tr += `<tr>
-                                <th scope="row">${variable.id}</th>
+                                <td>${variable.id}</td>
                                 <td>${variable.first_name}</td>
                                 <td>${variable.last_name}</td>
                                 <td>${variable.email}</td>
                                 <td>
                                     <button class="btn btn-sm btn-success">View</button>
                                     <button class="btn btn-sm btn-primary">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteUser(this)">Delete</button>
                                 </td>
                             </tr>`;
                     console.log(variable.first_name);
@@ -107,10 +110,39 @@
             .catch(function(err){
                 console.log(err);
             });
-        </script>
-        <script>
-            let bdy = document.querySelector('body');
-            //Fat arrow ES6 2015
+            
+            //
+            let deleteUser = (elem)=>{
+                console.log(elem);
+                let tr = elem.closest('tr');
+                //PO.then().catch();
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this imaginary file!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        let delid = tr.querySelector('td:first-child').innerHTML;
+                        //Call your api here
+                        fetch(`${url}/api/users/${delid}`,{
+                            method:"DELETE"
+                        }).then((data)=>{
+                            tr.remove();
+                            swal("Poof! Your imaginary file has been deleted!", {
+                                icon: "success",
+                            });
+                            
+                        }).catch((err)=>{
+                            console.log(JSON.stringify(err))
+                        });
+
+                        
+                    }
+                }); 
+            }
 
             let sendMyData=(elem)=>{ // e = event
                 let fn = elem.querySelector('input#fname').value;
@@ -123,10 +155,10 @@
                 }else{
                     //False
                     bdy.innerHTML +=   `<div class="d-flex justify-content-center position-fixed top-50 start-50 anilspinner ">
-                        <div class="spinner-grow text-success" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>`;
+                                            <div class="spinner-grow text-success" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>`;
                     console.log(elem);
                     console.log(elem.querySelector('input#fname').value);
                     console.log(elem.querySelector('input#lname').value);
@@ -146,7 +178,7 @@
                     //Promise Chain
 
                     // fetch('',{}).then().then().catch()
-                    fetch('https://reqres.in/api/users',{
+                    fetch(url+'/api/users',{
                         method:"POST",
                         headers: {
                             'Content-Type': 'application/json'
@@ -165,9 +197,6 @@
                         console.log(error);
                     });
                 }
-
-
-               
             }
         </script>
     </body>
