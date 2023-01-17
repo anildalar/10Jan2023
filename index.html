@@ -16,6 +16,25 @@
         </script>
     </head>
     <body>
+        
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+            
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary a_closemodal" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveChange(this)">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-4 a_tbdr">
@@ -68,6 +87,9 @@
             let bdy = document.querySelector('body');
             let x = document.querySelector('table.aniltable > tbody');
             let url = 'https://reqres.in';
+            let mt = document.querySelector('div#exampleModal h1.modal-title');
+            let mb = document.querySelector('div#exampleModal div.modal-body');
+            
             //Fat arrow ES6 2015
             //Promise Chain
 
@@ -98,8 +120,8 @@
                                 <td>${variable.last_name}</td>
                                 <td>${variable.email}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-success">View</button>
-                                    <button class="btn btn-sm btn-primary">Edit</button>
+                                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="viewModal(this)">View</button>
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="editModal(this)">Edit</button>
                                     <button class="btn btn-sm btn-danger" onclick="deleteUser(this)">Delete</button>
                                 </td>
                             </tr>`;
@@ -112,9 +134,79 @@
             });
             
             //
+            
+            //ES6 Fat Arrow
+            let saveChange = (elem)=>{
+                let i = document.querySelector('form.editForm input#userid').value;  
+                let n = document.querySelector('form.editForm input#fname').value;  
+                let l = document.querySelector('form.editForm input#lname').value;  
+                let e = document.querySelector('form.editForm input#email').value;
+                
+                console.log(n);
+                console.log(l);
+                console.log(e);
+                console.log(i);
+
+                //You have to call the update api
+                fetch(`${url}/api/users/${i}`,{
+                    method:'PUT'
+                }).then((res)=>{
+                    console.log(res.status);
+                    if(res.status == 200){
+                        document.querySelector('button.a_closemodal').click();
+                        swal("User updated successfully!", "You clicked the button!", "success");
+                       
+                    }
+                }).catch((e)=>{
+                    console.log(e);
+                });
+            }
+
+            let viewModal = (elem)=>{ // elem is formal arguemnt
+                let email = elem.closest('td').previousElementSibling.innerHTML;
+                let lname = elem.closest('td').previousElementSibling.previousElementSibling.innerHTML;
+                let fname = elem.closest('td').previousElementSibling.previousElementSibling.previousElementSibling.innerHTML;
+                let uid = elem.closest('td').previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML;
+                mt.innerHTML = 'View Modal';
+
+                //string.toUpperCase();
+                mb.innerHTML = `<ul class="list-group">
+                                    <li class="list-group-item">${email.toUpperCase()}</li>
+                                    <li class="list-group-item">${lname.toUpperCase()}</li>
+                                    <li class="list-group-item">${fname.toUpperCase()}</li>
+                                    <li class="list-group-item">${uid}</li>
+                                </ul>`;
+            }
+
+            let editModal = (elem)=>{
+                let id = elem.closest('tr').querySelector('td:first-child').innerHTML;
+                let nm = elem.closest('tr').querySelector('td:nth-child(2)').innerHTML;
+                let lnm = elem.closest('tr').querySelector('td:nth-child(3)').innerHTML;
+                let eml = elem.closest('tr').querySelector('td:nth-child(4)').innerHTML;
+                mt.innerHTML = 'Edit Modal';
+                mb.innerHTML = `<form class="editForm">
+                                    <input type="hidden" id="userid" name="userid" value="${id}">
+                                    <div class="mb-3">
+                                        <label for="fname" class="form-label">First Name</label>
+                                        <input name="fname" value="${nm}" type="text" class="form-control" id="fname">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="lname" class="form-label">Last Name</label>
+                                        <input name="lname" value="${lnm}" type="text" class="form-control" id="lname">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email address</label>
+                                        <input type="email"  value="${eml}" class="form-control" id="email" aria-describedby="emailHelp">
+                                    </div>                                    
+                                </form>`;
+                
+            }
+
             let deleteUser = (elem)=>{
                 console.log(elem);
                 let tr = elem.closest('tr');
+                console.log(tr);
+               
                 //PO.then().catch();
                 swal({
                     title: "Are you sure?",
@@ -124,22 +216,30 @@
                     dangerMode: true,
                 })
                 .then((willDelete) => {
+                   
                     if (willDelete) {
+                        tr.remove();
+                        //False
+                        bdy.innerHTML +=   `<div class="d-flex justify-content-center position-fixed top-50 start-50 anilspinner ">
+                            <div class="spinner-grow text-success" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>`;
+                        
+                        
                         let delid = tr.querySelector('td:first-child').innerHTML;
                         //Call your api here
+                        document.querySelector('.anilspinner').remove(); //Removing loadere/spinner
+                        
                         fetch(`${url}/api/users/${delid}`,{
                             method:"DELETE"
                         }).then((data)=>{
-                            tr.remove();
                             swal("Poof! Your imaginary file has been deleted!", {
                                 icon: "success",
                             });
-                            
                         }).catch((err)=>{
                             console.log(JSON.stringify(err))
-                        });
-
-                        
+                        }); 
                     }
                 }); 
             }
