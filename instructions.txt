@@ -43,7 +43,10 @@ You have to call the apis in Javscript .
 There 2 Ways you can call the apis in Pure/Vanilla/Core/Basic Javascript ?
 
 1. XMLHTTPRequest Class (Old Way)
-2. Fetch APIs. (New Way)
+2. Fetch APIs. (New Way) Built-in Technique 
+
+
+axios 3rd party library
 
 
 {} = JS Object
